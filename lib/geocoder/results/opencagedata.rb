@@ -64,8 +64,13 @@ module Geocoder::Result
     end
 
     def coordinates
-      [@data['lat'].to_f, @data['lon'].to_f]
+      ['lat', 'lng'].map{ |i| geometry['location'][i] }
     end
+
+    def geometry
+      @data['geometry'].merge!({'bounds' => @data['bounds'], 'location' => {'lat' => @data['geometry']['lat'], 'lng' => @data['geometry']['lng']}})
+    end
+
     def self.response_attributes
       %w[boundingbox license 
         formatted stadium]
