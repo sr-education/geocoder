@@ -139,7 +139,11 @@ module Geocoder
       # something else (like the URL before OAuth encoding).
       #
       def cache_key(query)
-        query_url(query)
+        if configuration.lookup_key_as_query
+          query
+        else
+          query_url(query)
+        end
       end
 
       ##
